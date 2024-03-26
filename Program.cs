@@ -1,19 +1,24 @@
 ﻿internal class Program {
+  private const int DIGITS = 4;
+  private const int ATTEMPTS = 10;
+  private const int MIN_DIGIT = 1;
+  private const int MAX_DIGIT = 6;
+
   private static int[]? TryParseInput() {
     string? guess = Console.ReadLine();
     if (string.IsNullOrEmpty(guess)) {
       Console.WriteLine("Invalid Input. Please enter a 4 digit number.");
       return null;
     }
-    if (guess.Length != 4) {
+    if (guess.Length != DIGITS) {
       Console.WriteLine("Invalid Input Length, please enter a 4 digit number.");
       return null;
     }
-    int[] guessDigits = new int[4];
+    int[] guessDigits = new int[DIGITS];
     for (int j = 0; j < guessDigits.Length; j++) {
       int guessDigit = 0;
       if (int.TryParse(guess.Substring(j, 1), out guessDigit)) {
-        if (guessDigit < 1 || guessDigit > 6) {
+        if (guessDigit < MIN_DIGIT || guessDigit > MAX_DIGIT) {
           Console.WriteLine(
               "Invalid Input. Please enter 4 digits between 1 and 6");
           return null;
@@ -45,7 +50,7 @@
       }
     }
     string output = "";
-    if (numPlus == 4) {
+    if (numPlus == DIGITS) {
       output = "You Win";
       won = true;
     } else {
@@ -62,16 +67,15 @@
 
   private static void Main(string[] args) {
     Random rnd = new Random();
-    int[] solution = new int[4];
+    int[] solution = new int[DIGITS];
     for (int i = 0; i < solution.Length; i++) {
-      solution[i] = rnd.Next(1, 7);
+      solution[i] = rnd.Next(MIN_DIGIT, MAX_DIGIT + 1);
     }
 
-    int tries = 10;
     int attempt = 0;
-    while (attempt < tries) {
+    while (attempt < ATTEMPTS) {
       Console.WriteLine("Input a 4 digit number with digits between 1 and 6. " +
-                        "Attempts Remaining: " + (tries - attempt));
+                        "Attempts Remaining: " + (ATTEMPTS - attempt));
       int[]? guessDigits = TryParseInput();
       if (guessDigits == null) {
         continue;
